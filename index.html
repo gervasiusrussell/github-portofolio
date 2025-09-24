@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+     Added animated particles canvas 
+    <canvas id="particles-canvas"></canvas>
+    
      Navigation 
     <nav class="navbar">
         <div class="nav-container">
@@ -20,20 +23,71 @@
      Hero Section 
     <section id="home" class="hero">
         <div class="hero-content">
+             Added typing animation container 
             <h1 class="hero-title">Gervasius Russell</h1>
-            <p class="hero-subtitle">Data Science Student</p>
-            <a href="#about" class="cta-button">Learn More</a>
+            <p class="hero-subtitle typing-text">Data Science Student</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="89">0</span>
+                    <span class="stat-label">% Model Accuracy</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="15">0</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="3">0</span>
+                    <span class="stat-label">Years Learning</span>
+                </div>
+            </div>
+            <a href="#about" class="cta-button glitch-effect">Explore My Journey</a>
         </div>
         <div class="hero-background"></div>
+         Added floating code snippets 
+        <div class="floating-code">
+            <div class="code-snippet" style="--delay: 0s">import pandas as pd</div>
+            <div class="code-snippet" style="--delay: 2s">model.fit(X_train, y_train)</div>
+            <div class="code-snippet" style="--delay: 4s">accuracy = 0.89</div>
+            <div class="code-snippet" style="--delay: 6s">plt.show()</div>
+        </div>
     </section>
 
      About Section 
     <section id="about" class="about">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
+            <h2 class="section-title glitch-title">About Me</h2>
             <div class="about-content">
-                <p>I'm a passionate Data Science student with a strong foundation in statistical analysis, machine learning, and data visualization. Currently pursuing my degree while working on real-world projects that combine analytical thinking with practical problem-solving skills.</p>
-                <p>My interests span across predictive modeling, deep learning, and extracting meaningful insights from complex datasets. I'm always eager to learn new technologies and apply data-driven approaches to solve challenging problems.</p>
+                 Added skill bars and interactive elements 
+                <div class="about-text">
+                    <p>I'm a passionate Data Science student with a strong foundation in statistical analysis, machine learning, and data visualization. Currently pursuing my degree while working on real-world projects that combine analytical thinking with practical problem-solving skills.</p>
+                    <p>My interests span across predictive modeling, deep learning, and extracting meaningful insights from complex datasets. I'm always eager to learn new technologies and apply data-driven approaches to solve challenging problems.</p>
+                </div>
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <span class="skill-name">Python</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Machine Learning</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Data Visualization</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">SQL</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75%"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -43,24 +97,49 @@
         <div class="container">
             <h2 class="section-title">Projects</h2>
             <div class="projects-grid">
+                 Enhanced project cards with tech stack badges 
                 <div class="project-card">
+                    <div class="project-icon">🤖</div>
                     <h3 class="project-title">Customer Churn Prediction</h3>
                     <p class="project-description">Machine learning model to predict customer churn using Python and scikit-learn. Achieved 89% accuracy with ensemble methods.</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Scikit-learn</span>
+                        <span class="tech-badge">Pandas</span>
+                    </div>
                     <a href="#" class="project-button">View Project</a>
                 </div>
                 <div class="project-card">
+                    <div class="project-icon">📊</div>
                     <h3 class="project-title">Sales Data Dashboard</h3>
                     <p class="project-description">Interactive dashboard built with Python and Plotly to visualize sales trends and KPIs for business decision-making.</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Plotly</span>
+                        <span class="tech-badge">Dash</span>
+                        <span class="tech-badge">SQL</span>
+                    </div>
                     <a href="#" class="project-button">View Project</a>
                 </div>
                 <div class="project-card">
+                    <div class="project-icon">💬</div>
                     <h3 class="project-title">Sentiment Analysis Tool</h3>
                     <p class="project-description">Natural language processing application that analyzes social media sentiment using NLTK and deep learning techniques.</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">NLTK</span>
+                        <span class="tech-badge">TensorFlow</span>
+                        <span class="tech-badge">Flask</span>
+                    </div>
                     <a href="#" class="project-button">View Project</a>
                 </div>
                 <div class="project-card">
+                    <div class="project-icon">📈</div>
                     <h3 class="project-title">Stock Price Predictor</h3>
                     <p class="project-description">Time series forecasting model using LSTM neural networks to predict stock prices with technical indicators.</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">LSTM</span>
+                        <span class="tech-badge">Keras</span>
+                        <span class="tech-badge">NumPy</span>
+                    </div>
                     <a href="#" class="project-button">View Project</a>
                 </div>
             </div>
@@ -73,6 +152,12 @@
             <h2 class="section-title">Get In Touch</h2>
             <div class="contact-content">
                 <p>Let's connect and discuss data science opportunities!</p>
+                 Added fun contact message 
+                <div class="fun-message">
+                    <span class="emoji-float">🚀</span>
+                    <p>Ready to turn data into insights? Let's collaborate!</p>
+                    <span class="emoji-float">📊</span>
+                </div>
                 <div class="contact-links">
                     <a href="mailto:gervasius.russell@email.com" class="contact-link">
                         <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

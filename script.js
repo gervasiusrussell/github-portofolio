@@ -63,9 +63,67 @@ document.addEventListener("DOMContentLoaded", () => {
       if (entry.isIntersecting) {
         entry.target.style.opacity = "1"
         entry.target.style.transform = "translateY(0)"
+
+        // Trigger specific animations
+        if (entry.target.classList.contains("hero-stats")) {
+          animateCounters()
+        }
+        if (entry.target.classList.contains("skills-container")) {
+          animateSkills()
+        }
       }
     })
   }, observerOptions)
+
+  new ParticleSystem()
+
+  const animateCounters = () => {
+    const counters = document.querySelectorAll(".stat-number")
+    counters.forEach((counter) => {
+      const target = Number.parseInt(counter.getAttribute("data-target"))
+      const increment = target / 100
+      let current = 0
+
+      const updateCounter = () => {
+        if (current < target) {
+          current += increment
+          counter.textContent = Math.ceil(current)
+          setTimeout(updateCounter, 20)
+        } else {
+          counter.textContent = target
+        }
+      }
+
+      updateCounter()
+    })
+  }
+
+  const animateSkills = () => {
+    const skillBars = document.querySelectorAll(".skill-progress")
+    skillBars.forEach((bar, index) => {
+      setTimeout(() => {
+        const width = bar.getAttribute("data-width")
+        bar.style.width = width
+      }, index * 200)
+    })
+  }
+
+  const heroStats = document.querySelector(".hero-stats")
+  const skillsContainer = document.querySelector(".skills-container")
+
+  if (heroStats) {
+    heroStats.style.opacity = "0"
+    heroStats.style.transform = "translateY(30px)"
+    heroStats.style.transition = "opacity 0.6s ease, transform 0.6s ease"
+    observer.observe(heroStats)
+  }
+
+  if (skillsContainer) {
+    skillsContainer.style.opacity = "0"
+    skillsContainer.style.transform = "translateY(30px)"
+    skillsContainer.style.transition = "opacity 0.6s ease, transform 0.6s ease"
+    observer.observe(skillsContainer)
+  }
 
   // Observe project cards for scroll animations
   const projectCards = document.querySelectorAll(".project-card")
@@ -74,6 +132,23 @@ document.addEventListener("DOMContentLoaded", () => {
     card.style.transform = "translateY(30px)"
     card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`
     observer.observe(card)
+
+    // Add tilt effect
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const centerX = rect.width / 2
+      const centerY = rect.height / 2
+      const rotateX = (y - centerY) / 10
+      const rotateY = (centerX - x) / 10
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`
+    })
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) translateY(-10px)"
+    })
   })
 
   // Add hover effect for project buttons
@@ -111,6 +186,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 600)
     })
   })
+
+  const typingText = document.querySelector(".typing-text")
+  if (typingText) {
+    const text = typingText.textContent
+    typingText.textContent = ""
+    let i = 0
+
+    const typeWriter = () => {
+      if (i < text.length) {
+        typingText.textContent += text.charAt(i)
+        i++
+        setTimeout(typeWriter, 100)
+      }
+    }
+
+    setTimeout(typeWriter, 1000)
+  }
 })
 
 // Add CSS for ripple effect
@@ -138,3 +230,89 @@ style.textContent = `
     }
 `
 document.head.appendChild(style)
+
+class ParticleSystem {
+  constructor() {
+    this.canvas = document.getElementById("particles-canvas")
+    this.ctx = this.canvas.getContext("2d")
+    this.particles = []
+    this.mouse = { x: 0, y: 0 }
+
+    this.resize()
+    this.init()
+    this.animate()
+
+    window.addEventListener("resize", () => this.resize())
+    window.addEventListener("mousemove", (e) => {
+      this.mouse.x = e.clientX
+      this.mouse.y = e.clientY
+    })
+  }
+
+  resize() {
+    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
+  }
+
+  init() {
+    for (let i = 0; i < 50; i++) {
+      this.particles.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.5 + 0.2,
+      })
+    }
+  }
+
+  animate() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+    this.particles.forEach((particle, index) => {
+      // Update position
+      particle.x += particle.vx
+      particle.y += particle.vy
+
+      // Mouse interaction
+      const dx = this.mouse.x - particle.x
+      const dy = this.mouse.y - particle.y
+      const distance = Math.sqrt(dx * dx + dy * dy)
+
+      if (distance < 100) {
+        particle.vx += dx * 0.0001
+        particle.vy += dy * 0.0001
+      }
+
+      // Boundary check
+      if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1
+      if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1
+
+      // Draw particle
+      this.ctx.beginPath()
+      this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+      this.ctx.fillStyle = `rgba(0, 102, 255, ${particle.opacity})`
+      this.ctx.fill()
+
+      // Draw connections
+      this.particles.forEach((otherParticle, otherIndex) => {
+        if (index !== otherIndex) {
+          const dx = particle.x - otherParticle.x
+          const dy = particle.y - otherParticle.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          if (distance < 100) {
+            this.ctx.beginPath()
+            this.ctx.moveTo(particle.x, particle.y)
+            this.ctx.lineTo(otherParticle.x, otherParticle.y)
+            this.ctx.strokeStyle = `rgba(0, 255, 136, ${0.1 * (1 - distance / 100)})`
+            this.ctx.stroke()
+          }
+        }
+      })
+    })
+
+    requestAnimationFrame(() => this.animate())
+  }
+}
